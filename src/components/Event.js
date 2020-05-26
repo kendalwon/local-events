@@ -3,7 +3,7 @@ import { images } from "./imageLinks";
 
 const Event = ({ event, index }) => {
   const image =
-    event.image === null ? images[index] : event.image;
+    event.image === null ? images[index] : event.image.medium.url;
   return (
     <div className="event">
       <h2 className="title">{event.title}</h2>
@@ -18,7 +18,7 @@ const Event = ({ event, index }) => {
           href={event.url}
           target="_blank"
           rel="noopener noreferrer">
-          link
+          More Info
         </a>
       </button>
     </div>

@@ -11,6 +11,7 @@ const targetUrl = `http://api.eventful.com/json/events/search?app_key=${apiKey}&
 const initialState = {
   loading: true,
   events: [],
+  eventType: "family",
   errorMessage: null
 };
 
@@ -26,7 +27,8 @@ const reducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        events: action.payload
+        events: action.payload,
+        eventType: action.eventType
       };
     case "SEARCH_EVENTS_FAILURE":
       return {
@@ -56,14 +58,15 @@ const Dashboard = () => {
     .then(json => {
       dispatch({
         type: "SEARCH_EVENTS_SUCCESS",
-        payload: json.events.event
+        payload: json.events.event,
+        eventType: "family"
     	});
     });
   }, []);
 
   const search = searchValue => {
     dispatch({
-    	type: "SEARCH_EVENTS_REQUEST"
+      type: "SEARCH_EVENTS_REQUEST"
   	});
     fetch(proxyUrl + `http://api.eventful.com/json/events/search?app_key=${apiKey}&keywords=${searchValue}&location=48103&date=Future`)
     .then(response => {
@@ -79,33 +82,19 @@ const Dashboard = () => {
     .then(json => {
       dispatch({
         type: "SEARCH_EVENTS_SUCCESS",
-        payload: json.events.event
+        payload: json.events.event,
+        eventType: searchValue
     	});
     });
-    // .then(response => response.json())
-    // 	.then(json => {
-    //     if (json.Response === "True") {
-    //     	dispatch({
-    //         type: "SEARCH_EVENTS_SUCCESS",
-    //         payload: json.events.event
-    //     	});
-    //   	} else {
-    //     	dispatch({
-    //         type: "SEARCH_EVENTS_FAILURE",
-    //         error: json.error
-    //     	});
-    //     }
-    // 	});
 	};
 
-    const { events, errorMessage, loading } = state;
+    const { events, eventType, errorMessage, loading } = state;
     console.log(events);
 
     return (
     <div className="dashboard">
-      <Header text="Ann Arbor Events" />
+      <Header text={`Ann Arbor ${eventType} Events`} />
       <Search search={search} />
-      <p className="dashboard-intro">Some upcoming events near you!</p>
       <div className="events">
         {loading && !errorMessage ? (
           <span>loading... </span>
