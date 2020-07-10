@@ -1,6 +1,6 @@
 {
   "name": "local-events",
-  "homepage": "http://kendalwon.github.io/local-events",
+  "homepage": "https://kendalwon.github.io/local-events",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -16,8 +16,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "npm run build&&gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
